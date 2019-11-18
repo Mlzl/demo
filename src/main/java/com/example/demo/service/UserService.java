@@ -1,13 +1,21 @@
 package com.example.demo.service;
 
+import ch.qos.logback.classic.Logger;
 import com.example.demo.dao.UserRepository;
 import com.example.demo.entity.UserDO;
+import lombok.extern.log4j.Log4j;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.ThreadPoolExecutor;
 
+@Slf4j
 @Service
 public class UserService {
     @Autowired
@@ -25,10 +33,10 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    @Async
-    public void async() throws InterruptedException{
-        System.out.println("async task start");
-        Thread.sleep(3000);
-        System.out.println("async task end");
+    @Async("monitorExecutor")
+    public void async(){
+        log.info("async task start");
+        System.out.println("");
+        log.info("async task end");
     }
 }
