@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.example.demo.entity.RequestEntityTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,7 +25,8 @@ public class HttpRequestController {
     RestTemplate restTemplate;
 
     @RequestMapping(value = "/http_request/test", method = RequestMethod.GET)
-    public HashMap test_for_restful() {
+    public HashMap test_for_restful() throws InterruptedException{
+        Thread.sleep(3000);
         HashMap<String, Object> hashMap = new HashMap<>();
         hashMap.put("name", "test");
         hashMap.put("age", 18);
@@ -50,7 +52,7 @@ public class HttpRequestController {
                 return "system error." + re.getStatusCode();
             }
         }catch (Exception e){
-            return e.getMessage();
+            return e.toString();
         }
 
     }
@@ -62,6 +64,8 @@ public class HttpRequestController {
         rtt.setDate(sdf.format(new Date()));
         return rtt;
     }
+
+
     @RequestMapping("/http_request/post")
     public String http_post(){
         HttpHeaders headers = new HttpHeaders();
@@ -72,4 +76,7 @@ public class HttpRequestController {
         HttpEntity<RequestEntityTest> entity = new HttpEntity<RequestEntityTest>(rtt, headers);
         return restTemplate.exchange("http://127.0.0.1:8080/http_request/test_post", HttpMethod.POST, entity, String.class).getBody();
     }
+
+
+
 }

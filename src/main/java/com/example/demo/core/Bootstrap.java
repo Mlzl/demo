@@ -1,10 +1,10 @@
 package com.example.demo.core;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.ClientHttpRequestFactory;
+import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
+import org.springframework.web.client.AsyncRestTemplate;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
@@ -13,8 +13,13 @@ public class Bootstrap extends WebMvcConfigurerAdapter {
 
     @Bean
     public RestTemplate getRestTemplate() {
-        Logger logger = LoggerFactory.getLogger(this.getClass().getName());
-        logger.warn("get me !!!!!!!!!!!!!!!!!");
-        return new RestTemplate();
+        return new RestTemplate(getClientHttpRequestFactory());
+    }
+
+    private ClientHttpRequestFactory getClientHttpRequestFactory(){
+        HttpComponentsClientHttpRequestFactory crf = new HttpComponentsClientHttpRequestFactory();
+        crf.setReadTimeout(2000);
+        crf.setConnectTimeout(2000);
+        return crf;
     }
 }
