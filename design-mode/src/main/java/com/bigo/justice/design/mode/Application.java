@@ -5,4 +5,7 @@ package com.bigo.justice.design.mode;
  * @data 2021/6/4 12:19
  */
 public class Application {
+	public static void main(String[] args) {
+		StringBuilder builder = new StringBuilder();
+	}
 }
