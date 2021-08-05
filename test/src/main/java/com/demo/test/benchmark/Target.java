@@ -1,13 +1,17 @@
 package com.demo.test.benchmark;
 
+import com.demo.test.OkHttpClientRequestInterceptor;
+import okhttp3.Interceptor;
+import okhttp3.OkHttpClient;
+import okhttp3.internal.http.RealInterceptorChain;
+import okhttp3.internal.http.RetryAndFollowUpInterceptor;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.RunnerException;
 import org.openjdk.jmh.runner.options.Options;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
-
-import java.util.HashMap;
-import java.util.Hashtable;
+import java.lang.reflect.Field;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -16,21 +20,25 @@ import java.util.concurrent.TimeUnit;
  */
 @BenchmarkMode(Mode.AverageTime)
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
-@Measurement(iterations = 5, time = 5, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 5, time = 5)
 @State(Scope.Benchmark)
 @Fork(value = 2)
 public class Target {
 
     @Benchmark
-    public void hashMap() {
-        HashMap hm = new HashMap<>();
-        hm.put("1", "1");
-    }
-
-    @Benchmark
-    public void hashTable() {
-        Hashtable hm = new Hashtable<>();
-        hm.put("1", "1");
+    public void reflect() {
+//        try {
+//            RealInterceptorChain chain = new RealInterceptorChain(null, null, null, null, 0, null);
+//            Field field = chain.getClass().getDeclaredField("interceptors");
+//            field.setAccessible(true);
+//            List<Interceptor> interceptors = (List<Interceptor>) field.get(chain);
+//            for (Interceptor interceptor : interceptors) {
+//                if (interceptor instanceof RetryAndFollowUpInterceptor) {
+//                }
+//            }
+//        } catch (Exception e) {
+//
+//        }
     }
 
     public static void main(String[] args) throws RunnerException {
